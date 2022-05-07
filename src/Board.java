@@ -41,7 +41,7 @@ public class Board
     }
 
     // You may choose to change the return type if you like
-    public void takeTurn(boolean isP1,int col,int row)
+    public void takeTurn(boolean isP1,int row,int col)
     {
         if (isP1){
             board[col][row]=PLAYER1_TOKEN;
