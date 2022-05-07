@@ -1,5 +1,8 @@
 public class Board 
 {
+    // The "final" keyword means something is immutable and cannot be changed after declaration. 
+    private final char DEFAULT_TOKEN = '#';
+
     // State of the tic tac toe board
     // note: everything to the right of the '=' could be done in constructor instead
     //       This is a style choice.
@@ -12,9 +15,21 @@ public class Board
         {
             for(int col = 0; col < 3; col++)
             {
-                board[row][col] = '#';
+                board[row][col] = DEFAULT_TOKEN;
             }
         }
+    }
+
+    // You may choose to change the return type if you like
+    public void takeTurn()
+    {
+        //TODO
+    }
+
+    public boolean isGameOver()
+    {
+        //TODO 
+        return false;
     }
 
     public String displayBoard()
