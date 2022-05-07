@@ -26,16 +26,17 @@ public class TicTacToe
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         
         // This is the main game loop
+        boolean isP1 = true;
         while(!board.isGameOver())
         {
+            System.out.println(board.displayBoard());
             // An example of how to use BufferedReader:
-            String tempString = reader.readLine();
-            System.out.println(tempString);
+            String X = reader.readLine();
+            String Y = reader.readLine();
 
             // TODO Think about what kind of inputs this function may need.
-            board.takeTurn();
-
-            System.out.println(board.displayBoard());
+            board.takeTurn(isP1,Integer.parseInt(X)-1,Integer.parseInt(Y)-1);
+            isP1=!isP1;
         }
 
         // TODO print out who won! (or if there was a tie)
