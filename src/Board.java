@@ -1,5 +1,6 @@
 public class Board 
 {
+    private final char DEFAULT_TOKEN = '#';
     // State of the tic tac toe board
     // note: everything to the right of the '=' could be done in constructor instead
     //       This is a style choice.
@@ -12,7 +13,7 @@ public class Board
         {
             for(int col = 0; col < 3; col++)
             {
-                board[row][col] = '#';
+                board[row][col] = DEFAULT_TOKEN;
             }
         }
     }
