@@ -62,11 +62,11 @@ public class TicTacToe
         int win = board.testAllBoardSpace();
         if (win==0)
         {
-            System.out.println("Tie!!!");
+            System.out.println("Tie!!!!!!!!");
         } 
         else
         {
-            System.out.println(("Player "+board.testAllBoardSpace()+" WINS!"));
+            System.out.println(("Player "+board.testAllBoardSpace()+" WINS!!!!!!!!!"));
         }
         
     }
