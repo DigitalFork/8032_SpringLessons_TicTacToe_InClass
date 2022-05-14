@@ -8,12 +8,12 @@ public class TicTacToe
     /*
 
     Requirements:
-    - there can be two players
-    - players take turns (i.e. player 0 goes, then player 1 goes, etc)
-    - players input their turns in the terminal while the main loop is running
-    - there can be a winner
-    - there can be a tie
-    - all fields in the Board class are private
+    - there can be two players DONE
+    - players take turns (i.e. player 0 goes, then player 1 goes, etc) DONE
+    - players input their turns in the terminal while the main loop is running DONE
+    - there can be a winner DONE
+    - there can be a tie DONE
+    - all fields in the Board class are private DONE
     */
 
     public static void main(String[] args) throws Exception
