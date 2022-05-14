@@ -1,13 +1,11 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
-import java.math.*;
 
 public class TicTacToe 
 {
 
     /*
-    TODO write your own tic tac toe game!
 
     Requirements:
     - there can be two players
@@ -33,18 +31,29 @@ public class TicTacToe
         {
             System.out.println(board.displayBoard());
             // An example of how to use BufferedReader:
-            String num= null;
+            String num = "";
+            Boolean isAllowed = false;
+            int row=0;
+            int col=0;
 
             List<String> allowedInputs = Arrays.asList("1","2","3","4","5","6","7","8","9");
-            while(!allowedInputs.contains(num))
+            while(!isAllowed)
             {
-                System.out.println("Please enter a digit between 1 and 9 inclusive");
+                System.out.println("Please enter a digit between 1 and 9 inclusive that hasn't already been taken");
                 num = reader.readLine();
-            }
-            allowedInputs.remove(num);
 
-            int row = (int)Math.floor((Integer.parseInt(num)-1))/3;
-            int col = (Integer.parseInt(num)-1)%3;
+                if (allowedInputs.contains(num))
+                {
+                    row = (int)Math.floor((Integer.parseInt(num)-1))/3;
+                    col = (Integer.parseInt(num)-1)%3;
+                    if (board.isOpen(row, col))
+                    {
+                        System.out.println(""+row+""+col);
+                        isAllowed = true;
+                    }
+                }
+            }
+
 
             board.takeTurn(isP1,row,col);
             isP1=!isP1;
