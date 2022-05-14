@@ -10,35 +10,8 @@ public class Board
     //       This is a style choice.
     private char[][] board = {{'1','2','3'},{'4','5','6'},{'7','8','9'}};
 
-    /* BS for testing if the board is won
-    private final byte[][] boardTests = 
-    {
-        {146,80,49},
-        {,,},
-        {,,}
-    };
-    
-    //Test 1 = Left col
-    //Test 2 = Middle col
-    //Test 3 = Right col
-    //Test 4 = Top row
-    //Test 5 = Middle row
-    //Test 6 = Bottom row
-    //Test 7 = Diagonal going down and right
-    //Test 8 = Diagonal goinf down and left
-    */
-
     // Constructor
-    Board()
-    {
-        // for(int row = 0; row < 3; row++)
-        // {
-        //     for(int col = 0; col < 3; col++)
-        //     {
-        //         board[row][col] = DEFAULT_TOKEN;
-        //     }
-        // }
-    }
+    Board(){}
 
     public boolean isOpen(int row,int col){
         return Character.isDigit(board[row][col]);
@@ -61,6 +34,7 @@ public class Board
 
     public int testAllBoardSpace()
     {
+        //Checks Col 1-3 then Row 1-3 then Diagonals
         if (board[0][0]==board[1][0] && board[0][0]==board[2][0]){
             return whichPlayer(board[0][0]);
         }
@@ -86,6 +60,7 @@ public class Board
             return whichPlayer(board[0][2]);
         }
 
+        //Checks board for tie
         for (char[] cArr:board){
             for (char c:cArr){
                 if (Character.isDigit(c)){

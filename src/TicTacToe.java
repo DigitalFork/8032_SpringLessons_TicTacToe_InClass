@@ -48,7 +48,6 @@ public class TicTacToe
                     col = (Integer.parseInt(num)-1)%3;
                     if (board.isOpen(row, col))
                     {
-                        System.out.println(""+row+""+col);
                         isAllowed = true;
                     }
                 }
