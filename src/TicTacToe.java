@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.*;
 import java.math.*;
 
 public class TicTacToe 
@@ -32,17 +33,33 @@ public class TicTacToe
         {
             System.out.println(board.displayBoard());
             // An example of how to use BufferedReader:
-            String num = reader.readLine();
-            int xPos = (Integer.parseInt(num)-1)%3;
-            int yPos = (int)Math.floor((Integer.parseInt(num)-1))/3;
+            String num= null;
 
-            // TODO Think about what kind of inputs this function may need.
-            board.takeTurn(isP1,xPos,yPos);
+            List<String> allowedInputs = Arrays.asList("1","2","3","4","5","6","7","8","9");
+            while(!allowedInputs.contains(num))
+            {
+                System.out.println("Please enter a digit between 1 and 9 inclusive");
+                num = reader.readLine();
+            }
+            allowedInputs.remove(num);
+
+            int row = (int)Math.floor((Integer.parseInt(num)-1))/3;
+            int col = (Integer.parseInt(num)-1)%3;
+
+            board.takeTurn(isP1,row,col);
             isP1=!isP1;
         }
 
         System.out.println(board.displayBoard());
-
-        System.out.println(("Player "+board.testAllBoardSpace()+" WINS!"));
+        int win = board.testAllBoardSpace();
+        if (win==0)
+        {
+            System.out.println("Tie!!!");
+        } 
+        else
+        {
+            System.out.println(("Player "+board.testAllBoardSpace()+" WINS!"));
+        }
+        
     }
 }

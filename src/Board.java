@@ -40,14 +40,17 @@ public class Board
         // }
     }
 
+    public boolean isOpen(int row,int col){
+        return Character.isDigit(board[row][col]);
+    }
     // You may choose to change the return type if you like
     public void takeTurn(boolean isP1,int row,int col)
     {
         if (isP1){
-            board[col][row]=PLAYER1_TOKEN;
+            board[row][col]=PLAYER1_TOKEN;
         }
         else{
-            board[col][row]=PLAYER2_TOKEN;
+            board[row][col]=PLAYER2_TOKEN;
         }
     }
 
@@ -82,7 +85,15 @@ public class Board
         else if (board[0][2]==board[1][1] && board[0][2]==board[2][0]){
             return whichPlayer(board[0][2]);
         }
-        return -1;
+
+        for (char[] cArr:board){
+            for (char c:cArr){
+                if (Character.isDigit(c)){
+                    return -1;
+                }
+            }
+        }
+        return 0;
     }
 
     private int whichPlayer(char c)
