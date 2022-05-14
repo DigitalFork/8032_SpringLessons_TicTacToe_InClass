@@ -33,11 +33,11 @@ public class TicTacToe
             System.out.println(board.displayBoard());
             // An example of how to use BufferedReader:
             String num = reader.readLine();
-            int X = (Integer.parseInt(num)-1)%3;
-            int Y = (int)Math.floor((Integer.parseInt(num)-1))/3;
+            int xPos = (Integer.parseInt(num)-1)%3;
+            int yPos = (int)Math.floor((Integer.parseInt(num)-1))/3;
 
             // TODO Think about what kind of inputs this function may need.
-            board.takeTurn(isP1,X,Y);
+            board.takeTurn(isP1,xPos,yPos);
             isP1=!isP1;
         }
 
