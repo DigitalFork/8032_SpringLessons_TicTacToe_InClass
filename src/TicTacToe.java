@@ -20,7 +20,7 @@ public class TicTacToe
     {
         System.out.println("Hello, World!");
 
-        Board board = new Board();
+        Board board = new Board(3, 3);
 
         // A BufferedReader allows you to take in input strings from the terminal
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -29,13 +29,24 @@ public class TicTacToe
         while(!board.isGameOver())
         {
             // An example of how to use BufferedReader:
-            String tempString = reader.readLine();
-            System.out.println(tempString);
-
-            // TODO Think about what kind of inputs this function may need.
-            board.takeTurn();
-
             System.out.println(board.displayBoard());
+			System.out.println("Player " + board.getTurnChar() + ", make your move");
+			
+			boolean valid = false;
+			while (!valid)
+			{
+				try
+				{
+					String tempString = reader.readLine();
+					board.takeTurn(tempString);
+					valid = true;
+				}
+				catch (Exception e)
+				{
+					System.out.println("Please give a valid move (one of the numbers on the board).");
+				}
+			}
+
         }
 
         // TODO print out who won! (or if there was a tie)
