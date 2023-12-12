@@ -63,17 +63,16 @@ public class Board {
 	}
 
     // You may choose to change the return type if you like
-    public void takeTurn(String input) throws NumberFormatException, IndexOutOfBoundsException
+    protected void takeTurn(String input) throws NumberFormatException, IndexOutOfBoundsException
     {
-        
+        // Ensure input is valid
 		int square = Integer.parseInt(input) - 1;
-		if (square < 0 | square >= boardWidth * boardHeight) {
+		if (square < 0 | square >= boardWidth * boardHeight)
+		{
 			throw new IndexOutOfBoundsException(square);
 		}
 
-		// Integer quotient of given square divided by the width of a row 
 		int row = square / boardWidth;
-		// The given square modulo the width of the board
 		int col = square % boardWidth;
 		if (board[row][col] == DEFAULT_TOKEN)
 		{
@@ -85,11 +84,28 @@ public class Board {
 		}
 		changeTurn();
     }
+	protected void takeTurn(int square) throws IndexOutOfBoundsException
+	{
+		if (square < 0 | square >= boardWidth *  boardHeight)
+		{
+			throw new IndexOutOfBoundsException();
+		}
+		int row = square / boardWidth;
+		int col = square % boardWidth;
+		if (board[row][col] == DEFAULT_TOKEN)
+		{
+			board[row][col] = players[turn];
+		}
+		else
+		{
+			throw new IndexOutOfBoundsException();
+		}
+		changeTurn();
+	}
 
     public boolean isGameOver()
     { 
-		// If getWinner does not return null,
-		// then someone won or tied, and the game is over, so return true
+		// If getWinner isn't null, then someone won or tied, so return true
 		return getWinner() != '\0';
 	}
 	
@@ -251,13 +267,13 @@ public class Board {
 	{
 		return turn;
 	}
-	public char getTurnChar()
-	{
-		return players[turn];
-	}
 	public void setTurn(int turn)
 	{
 		this.turn = turn;
+	}
+	public char getPlayerChar(int idx)
+	{
+		return players[idx];
 	}
 	public int changeTurn()
 	{
@@ -270,6 +286,29 @@ public class Board {
 		return DEFAULT_TOKEN;
 	}
 	
+	public int[] getMoves()
+	{
+		int numMoves = 0;
+		for(int i = 0; i < boardWidth * boardHeight; ++i)
+		{
+			// If the board square is empty, increase number of moves
+			numMoves += (board[i / boardWidth][i % boardWidth] == DEFAULT_TOKEN) ? 1 : 0;
+		}
+		int[] moves = new int[numMoves];
+		int moveNum = 0;
+		for(int i = 0; i < boardWidth * boardHeight; ++i)
+		{
+			if (board[i / boardWidth][i % boardWidth] == DEFAULT_TOKEN)
+			{
+				moves[moveNum] = i;
+				++moveNum;
+			}
+		}
+		return moves;
+		
+	}
+
+
 	private char testRun(int iterations, int fixedIndex, IntToBoardChar getChar)
 	{
 		char runToken = '\0';
@@ -283,10 +322,6 @@ public class Board {
 				return runToken;
 			}
 		}
-		// if (runCount > 1 & runToken != DEFAULT_TOKEN & runToken != '\0')
-		// {
-		// 	System.out.println("Run count: " + runCount);
-		// }
 		if (runCount >= boardWinLength)
 		{
 			return runToken;
@@ -298,8 +333,8 @@ public class Board {
 		}
 	}
 	/**
-	 * An interface holding a function that can be passed as a parameter
-	 * This is used  for the testRun() function
+	 * An interface holding a function that can be passed as a parameter<pre>
+	 * </pre>This is used  for the testRun() function
 	 */
 	private interface IntToBoardChar {
 		public char op(int i, int j);

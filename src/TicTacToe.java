@@ -19,7 +19,11 @@ public class TicTacToe
     {
         System.out.println("Hello, World!");
 
-        Board board = new Board();
+        Board board = new Board(5,5,4);
+
+		Bot myBot = new Bot();
+
+		boolean botEnabled = false;
 
         // A BufferedReader allows you to take in input strings from the terminal
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -30,21 +34,29 @@ public class TicTacToe
             System.out.print("\033[H\033[2J");  
             System.out.flush();
             System.out.println(board.displayBoard());
-			System.out.println("Player " + board.getTurnChar() + ", make your move");
-			
-			boolean valid = false;
-			while (!valid)
+			if(board.getTurn() > 1 & botEnabled)
 			{
-				try
+				int move = myBot.Think(board);
+				board.takeTurn(move);
+			}
+			else
+			{
+
+				System.out.println("Player " + board.getPlayerChar(board.getTurn()) + ", make your move");
+				boolean valid = false;
+				while (!valid)
 				{
-					String tempString = reader.readLine();
-					board.takeTurn(tempString);
-					valid = true;
-				}
-				catch (Exception e)
-				{
-                    System.out.print("\033[2A\033[1G\033[0J");
-					System.out.println("Player " + board.getTurnChar() + ", please give a valid move (one of the numbers on the board).");
+					try
+					{
+						String tempString = reader.readLine();
+						board.takeTurn(tempString);
+						valid = true;
+					}
+					catch (Exception e)
+					{
+						System.out.print("\033[2A\033[1G\033[0J");
+						System.out.println("Player " + board.getPlayerChar(board.getTurn()) + ", please give a valid move (one of the numbers on the board).");
+					}
 				}
 			}
 
