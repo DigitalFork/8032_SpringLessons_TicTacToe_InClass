@@ -19,7 +19,7 @@ public class TicTacToe
     {
         System.out.println("Hello, World!");
 
-        Board board = new Board(5, 5, 4);
+        Board board = new Board();
 
         // A BufferedReader allows you to take in input strings from the terminal
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

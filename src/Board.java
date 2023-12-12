@@ -5,7 +5,7 @@ public class Board {
 	private int boardHeight;
 	private int boardBoxWidth;
 	private int boardWinLength;
-	private char[] players =  {DEFAULT_TOKEN, 'X', 'O', 'L'};
+	private char[] players =  {DEFAULT_TOKEN, 'X', 'O'};
 
 	private int turn = 1;
 
