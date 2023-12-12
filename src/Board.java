@@ -83,30 +83,28 @@ public class Board {
     }
 
     public boolean isGameOver()
-    {
-		// IntToBoardChar rowRun = (i,j) -> board[i][j];
-		// IntToBoardChar colRun = (i,j) -> board[j][i];
-
-        // for (int row = 0; row < boardHeight; ++row)
-		// {
-
-		// 	char runToken = testRun(boardWidth, row);
-		// }
-		// for (int col = 0; col < boardWidth; ++col)
-		// 	for (int row = 1; row < boardHeight; ++row)
-		// 	{
-				
-		// 	}
-		// {
-			
-		// }
-		// If getWinner does not return default token, someone won
-		// return DEFAULT_TOKEN != getWinner();
+    { 
+		// // If getWinner does not return null,
+		// // then someone won or tied, and the game is over, so return true
+		// return '\0' != getWinner();
 		return false;
 	}
 	
 	public char getWinner() {
-		for (int i = 0; i < boardHeight; ++i)
+		IntToBoardChar rowRun = (i,j) -> board[i][j];
+		IntToBoardChar colRun = (i,j) -> board[j][i];
+
+        for (int row = 0; row < boardHeight; ++row)
+		{
+
+			char runToken = testRun(boardWidth, row, rowRun);
+		}
+		for (int col = 0; col < boardWidth; ++col)
+		{
+			char runToken = testRun(boardHeight, col, colRun);
+		}
+		//Old code
+		/* for (int i = 0; i < boardHeight; ++i)
 		{
 			int runCount = 0;
 			char runToken = DEFAULT_TOKEN;
@@ -133,7 +131,7 @@ public class Board {
 					return runToken;
 				}
 			}
-		}
+		} */
 		return DEFAULT_TOKEN;
 
 	}
@@ -198,14 +196,14 @@ public class Board {
 		return turn;
 	}
 
-	private char testRun(int iterations, int index, IntToBoardChar getChar)
+	private char testRun(int iterations, int fixedIndex, IntToBoardChar getChar)
 	{
 		char runToken = DEFAULT_TOKEN;
 		int runCount = 0;
 		for (int j = 0; j < iterations; ++j)
 		{
-			runCount = (getChar.op(index, j) == DEFAULT_TOKEN) ? runCount + 1 : 1;
-			runToken = getChar.op(i);
+			runCount = (getChar.op(fixedIndex, j) == DEFAULT_TOKEN) ? runCount + 1 : 1;
+			runToken = getChar.op(fixedIndex, j);
 			if (runCount >= boardWinLength)
 			{
 				return runToken;
