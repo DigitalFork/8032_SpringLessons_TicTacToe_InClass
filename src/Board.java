@@ -1,13 +1,12 @@
-
-
 public class Board {
     // The "final" keyword means something is immutable and cannot be changed after declaration. 
     private final char DEFAULT_TOKEN = '_';
 	private int boardWidth;
 	private int boardHeight;
 	private int boardWinLength;
-	private char[] players =  {'X', 'O'};
-	private int turn = 0;
+	private char[] players =  {DEFAULT_TOKEN, 'X', 'O'};
+
+	private int turn = 1;
 
     // State of the tic tac toe board
     // note: everything to the right of the '=' could be done in constructor instead
@@ -101,8 +100,43 @@ public class Board {
 		// {
 			
 		// }
-        return false;
-    }
+		// If getWinner does not return default token, someone won
+		// return DEFAULT_TOKEN != getWinner();
+		return false;
+	}
+	
+	public char getWinner() {
+		for (int i = 0; i < boardHeight; ++i)
+		{
+			int runCount = 0;
+			char runToken = DEFAULT_TOKEN;
+			for (int j = 0; j < boardWidth; ++j)
+			{
+				runCount = (board[i][j] == runToken) ? (runCount + 1) : 1;
+				runToken = board[i][j];
+				if (runCount >= boardWinLength & runToken != DEFAULT_TOKEN)
+				{
+					return runToken;
+				}
+			}
+		}
+		for (int i = 0; i < boardWidth; ++i)
+		{
+			int runCount = 0;
+			char runToken = DEFAULT_TOKEN;
+			for (int j = 0; j < boardHeight; ++j)
+			{
+				runCount = (board[j][i] == runToken) ? (runCount + 1) : 1;
+				runToken = board[j][i];
+				if (runCount >= boardWinLength & runToken != DEFAULT_TOKEN)
+				{
+					return runToken;
+				}
+			}
+		}
+		return DEFAULT_TOKEN;
+
+	}
 
     public String displayBoard()
     {
@@ -159,7 +193,8 @@ public class Board {
 		this.turn = turn;
 	}
 	public int changeTurn() {
-		turn = (turn + 1) % players.length;
+		// If turn reaches the end of the player list, reset to zero, then increment
+		turn = turn % (players.length - 1) + 1;
 		return turn;
 	}
 
