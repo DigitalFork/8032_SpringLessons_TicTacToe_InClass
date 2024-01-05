@@ -1,4 +1,4 @@
-public class Board {
+public class Old_Board {
     // The "final" keyword means something is immutable and cannot be changed after declaration. 
     private final char DEFAULT_TOKEN = '_';
 	private int boardWidth;
@@ -12,12 +12,12 @@ public class Board {
     // State of the tic tac toe board
     // note: everything to the right of the '=' could be done in constructor instead
     //       This is a style choice.
-    private int[][] board;
+    private char[][] board;
 
     /**
 	 * Initialize board with width, height, and run length to win of 3
 	 */
-    Board()
+    Old_Board()
 	{
 
 		initBoard(3, 3, 3);
@@ -28,7 +28,7 @@ public class Board {
 	 * @param height the height of the board<pre>
 	 * </pre>The run length to win is the lesser of the width and height
 	 */
-	Board(int width, int height)
+	Old_Board(int width, int height)
 	{
 
 		initBoard(width, height, Math.min(width, height));
@@ -39,7 +39,7 @@ public class Board {
 	 * @param height the height of the board
 	 * @param winLength the minimum run length needed to win
 	 */
-	Board(int width, int height, int winLength)
+	Old_Board(int width, int height, int winLength)
     {
 		initBoard(width, height, winLength);
 	}
@@ -50,13 +50,13 @@ public class Board {
 		boardHeight = height;
 		boardWinLength = winLength;
 		boardBoxWidth = String.valueOf(width * height).length();
-		board = new int[height][width];
+		board = new char[height][width];
 
 		for(int row = 0; row < height; ++row)
 		{
 			for(int col = 0; col < width; ++col)
 			{
-				board[row][col] = 0;
+				board[row][col] = DEFAULT_TOKEN;
 			}
 		}
 
@@ -74,9 +74,9 @@ public class Board {
 
 		int row = square / boardWidth;
 		int col = square % boardWidth;
-		if (board[row][col] == 0)
+		if (board[row][col] == DEFAULT_TOKEN)
 		{
-			board[row][col] = turn;
+			board[row][col] = players[turn];
 		}
 		else
 		{
@@ -92,9 +92,9 @@ public class Board {
 		}
 		int row = square / boardWidth;
 		int col = square % boardWidth;
-		if (board[row][col] == 0)
+		if (board[row][col] == DEFAULT_TOKEN)
 		{
-			board[row][col] = turn;
+			board[row][col] = players[turn];
 		}
 		else
 		{
@@ -106,68 +106,68 @@ public class Board {
     public boolean isGameOver()
     { 
 		// If getWinner isn't null, then someone won or tied, so return true
-		return getWinner() != -1;
+		return getWinner() != '\0';
 	}
 	
-	public int getWinner()
+	public char getWinner()
 	{
-		int winToken = -1;
+		char winToken = '\0';
 		
-		GetRunToken rowRun = (i,j) -> board[i][j];
+		IntToBoardChar rowRun = (i,j) -> board[i][j];
         for (int row = 0; row < boardHeight; ++row)
 		{
-			int runToken = testRun(boardWidth, row, rowRun);
-			if (runToken > 0 & winToken == -1)
+			char runToken = testRun(boardWidth, row, rowRun);
+			if (runToken != DEFAULT_TOKEN)
 			{
 				winToken = runToken;
 			}
 			
 		}
 		
-		GetRunToken colRun = (i,j) -> board[j][i];
+		IntToBoardChar colRun = (i,j) -> board[j][i];
 		for (int col = 0; col < boardWidth; ++col)
 		{
-			int runToken = testRun(boardHeight, col, colRun);
-			if (runToken > 0 & winToken == -1)
+			char runToken = testRun(boardHeight, col, colRun);
+			if (runToken != DEFAULT_TOKEN)
 			{
 				winToken = runToken;
 			}
 		}
 
 		// Check diagonals starting from the left side and going either up or down to the right
-		GetRunToken ascDiagonalRun = (i,j) -> board[i + j][j];
-		GetRunToken descDiagonalRun = (i,j) -> board[boardHeight - i - j - 1][j];
+		IntToBoardChar ascDiagonalRun = (i,j) -> board[i + j][j];
+		IntToBoardChar descDiagonalRun = (i,j) -> board[boardHeight - i - j - 1][j];
 		for (int startRow = 0; startRow <= boardHeight - boardWinLength; ++startRow)
 		{
-			int runAscToken = testRun(Math.min(boardWidth, boardHeight - startRow), startRow, ascDiagonalRun);
-			if (runAscToken > 0 & winToken == -1)
+			char runAscToken = testRun(Math.min(boardWidth, boardHeight - startRow), startRow, ascDiagonalRun);
+			if (runAscToken != DEFAULT_TOKEN & winToken == '\0')
 			{
 				winToken = runAscToken;
 			}
-			int runDescToken = testRun(Math.min(boardWidth, boardHeight - startRow), startRow, descDiagonalRun);
-			if (runDescToken > 0 & winToken == -1)
+			char runDescToken = testRun(Math.min(boardWidth, boardHeight - startRow), startRow, descDiagonalRun);
+			if (runDescToken != DEFAULT_TOKEN & winToken == '\0')
 			{
 				winToken = runDescToken;
 			}
 		}
 		// Check diagonals starting from the bottom or top and going either up or down to the right
-		GetRunToken ascDiagonalRun2 = (i,j) -> board[j][i + j];
-		GetRunToken descDiagonalRun2 = (i,j) -> board[boardHeight - j - 1][i + j];
+		IntToBoardChar ascDiagonalRun2 = (i,j) -> board[j][i + j];
+		IntToBoardChar descDiagonalRun2 = (i,j) -> board[boardHeight - j - 1][i + j];
 		for (int startCol = 1; startCol < boardWidth; ++startCol)
 		{
-			int runAscToken = testRun(Math.min(boardWidth - startCol, boardHeight), startCol, ascDiagonalRun2);
-			if (runAscToken > 0 & winToken == -1)
+			char runAscToken = testRun(Math.min(boardWidth - startCol, boardHeight), startCol, ascDiagonalRun2);
+			if (runAscToken != DEFAULT_TOKEN & winToken == '\0')
 			{
 				winToken = runAscToken;
 			}
-			int runDescToken  = testRun(Math.min(boardWidth - startCol, boardHeight), startCol, descDiagonalRun2);
-			if(runDescToken > 0 & winToken == -1)
+			char runDescToken  = testRun(Math.min(boardWidth - startCol, boardHeight), startCol, descDiagonalRun2);
+			if(runDescToken != DEFAULT_TOKEN & winToken == '\0')
 			{
 				winToken = runDescToken;
 			}
 		}
 
-		if (winToken != -1)
+		if (winToken != '\0')
 		{
 			return winToken;
 		}
@@ -179,16 +179,16 @@ public class Board {
 				// If isTie still hasn't been set to false and the current board square isn't empty,
 				// then isTie will stay true.
 				// Otherwise, isTie will be set to false and can't be set back to true
-				isTie = isTie & board[row][col] > 0;
+				isTie = isTie & board[row][col] != DEFAULT_TOKEN;
 			}
 		}
 		if (isTie)
 		{
-			return 0; 
+			return DEFAULT_TOKEN; 
 		}
 		else
 		{
-			return -1;
+			return '\0';
 		}
 
 	}
@@ -206,11 +206,11 @@ public class Board {
 				// even rows are game pieces, odd rows are seperators
 				if (i % 2 == 0) {
 
-					int boardToken = board[row][col];
+					char boardChar = board[row][col];
 					
 					builder.append(' ');
 					
-					if (boardToken == 0)
+					if (boardChar == DEFAULT_TOKEN)
 					{
 						int squareVal = row * boardWidth + col + 1;
 						for (int spaces = 0; spaces < boardBoxWidth - String.valueOf(squareVal).length(); spaces++)
@@ -225,7 +225,7 @@ public class Board {
 						{
 							builder.append(' ');
 						}
-						builder.append(players[boardToken]);
+						builder.append(boardChar);
 					}
 					builder.append(' ');
 					
@@ -309,14 +309,14 @@ public class Board {
 	}
 
 
-	private int testRun(int iterations, int fixedIndex, GetRunToken getToken)
+	private char testRun(int iterations, int fixedIndex, IntToBoardChar getChar)
 	{
-		int runToken = -1;
+		char runToken = '\0';
 		int runCount = 0;
 		for (int j = 0; j < iterations; ++j)
 		{
-			runCount = (getToken.op(fixedIndex, j) == runToken) ? runCount + 1 : 1;
-			runToken = getToken.op(fixedIndex, j);
+			runCount = (getChar.op(fixedIndex, j) == runToken) ? runCount + 1 : 1;
+			runToken = getChar.op(fixedIndex, j);
 			if (runCount >= boardWinLength)
 			{
 				return runToken;
@@ -329,14 +329,14 @@ public class Board {
 		else
 		{
 			// If no run occured, return default token
-			return 0;
+			return DEFAULT_TOKEN;
 		}
 	}
 	/**
 	 * An interface holding a function that can be passed as a parameter<pre>
 	 * </pre>This is used  for the testRun() function
 	 */
-	private interface GetRunToken {
-		public int op(int i, int j);
+	private interface IntToBoardChar {
+		public char op(int i, int j);
 	}
 }

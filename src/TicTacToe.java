@@ -65,9 +65,9 @@ public class TicTacToe
 		System.out.flush();
 		System.out.println(board.displayBoard());
 
-		if (board.getWinner() != board.getDefaultToken() & board.getWinner() != '\0')
+		if (board.getWinner() > 0)
 		{
-			System.out.println("Congratulations player " + board.getWinner() + ", you won!");
+			System.out.println("Congratulations player " + board.getPlayerChar(board.getWinner()) + ", you won!");
 		}
 		else
 		{
